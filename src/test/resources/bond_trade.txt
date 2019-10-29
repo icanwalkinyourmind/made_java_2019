@@ -1,0 +1,4 @@
+Trade: {
+    type: BOND,
+    price: 1533.32
+}
