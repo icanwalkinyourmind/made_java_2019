@@ -11,4 +11,9 @@ public class BaseTrade implements Trade {
     public Float getPrice() {
         return this.price;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + " " + this.price;
+    }
 }
