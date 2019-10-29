@@ -7,7 +7,7 @@ public class EnumSolution {
     public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
         String filePath = in.nextLine();
-        TradeParser parser = new TradeParser(filePath);
+        FileTradeParser parser = new FileTradeParser(filePath);
         Trade trade = TradeFactory.getTrade(parser.getTradeType(), parser.getTradePrice());
         System.out.println(trade);
     }

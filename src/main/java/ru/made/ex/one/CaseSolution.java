@@ -7,7 +7,7 @@ public class CaseSolution {
     public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
         String filePath = in.nextLine();
-        TradeParser parser = new TradeParser(filePath);
+        FileTradeParser parser = new FileTradeParser(filePath);
         Trade trade;
         switch (parser.getTradeType()) {
             case "BOND":
