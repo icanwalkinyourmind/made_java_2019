@@ -5,7 +5,7 @@ class BaseTradeParser {
     private static float tradePrice;
 
     private static String getTrim(String input, String subString) {
-        return input.replaceAll(subString, "").replaceFirst(".$", "").trim();
+        return input.replaceAll(subString, "").replaceFirst(",\\s+$", "").trim();
     }
 
     String getTradeType() {
