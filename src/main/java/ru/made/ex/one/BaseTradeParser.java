@@ -5,7 +5,7 @@ class BaseTradeParser {
     private double tradePrice;
 
     private String getTrim(String input, String subString) {
-        return input.replaceAll(subString, "").replaceFirst(",\\s+$", "").trim();
+        return input.replaceAll(subString, "").replaceFirst(",\\s*$", "").trim();
     }
 
     public String getTradeType() {
