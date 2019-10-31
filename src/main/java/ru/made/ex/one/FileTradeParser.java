@@ -7,12 +7,11 @@ import java.io.IOException;
 class FileTradeParser extends BaseTradeParser {
     private final String tradeFilePath;
 
-    FileTradeParser(String filePath) throws IOException {
+    FileTradeParser(String filePath) {
         this.tradeFilePath = filePath;
-        this.parseFile();
     }
 
-    private void parseFile() throws IOException {
+    public void parseFile() throws IOException {
         BufferedReader buffer = new BufferedReader(new FileReader(this.tradeFilePath));
         String nextString;
         while ((nextString = buffer.readLine()) != null) {
