@@ -2,7 +2,7 @@ package ru.made.ex.one;
 
 public class CommoditySpotTrade extends BaseTrade {
 
-    public CommoditySpotTrade(Float price) {
+    public CommoditySpotTrade(double price) {
         super(price);
     }
 }
