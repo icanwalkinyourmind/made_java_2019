@@ -1,26 +1,26 @@
 package ru.made.ex.one;
 
 class BaseTradeParser {
-    private static String tradeType;
-    private static float tradePrice;
+    private String tradeType;
+    private double tradePrice;
 
-    private static String getTrim(String input, String subString) {
+    private String getTrim(String input, String subString) {
         return input.replaceAll(subString, "").replaceFirst(",\\s+$", "").trim();
     }
 
-    String getTradeType() {
+    public String getTradeType() {
         return tradeType;
     }
 
-    float getTradePrice() {
+    public double getTradePrice() {
         return tradePrice;
     }
 
-    void parsePrice(String input) {
+    protected void parsePrice(String input) {
         tradePrice = Float.parseFloat(getTrim(input, "price:"));
     }
 
-    void parseType(String input) {
+    protected void parseType(String input) {
         tradeType = getTrim(input, "type:");
     }
 }
