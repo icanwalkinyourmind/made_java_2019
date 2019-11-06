@@ -1,14 +1,19 @@
 package ru.made.ex.one;
 
 public class BaseTrade implements Trade {
-    private final Float price;
+    private final double price;
 
-    BaseTrade(Float price) {
+    BaseTrade(double price) {
         this.price = price;
     }
 
     @Override
-    public Float getPrice() {
+    public double getPrice() {
         return this.price;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + " " + this.price;
     }
 }

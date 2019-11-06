@@ -2,7 +2,7 @@ package ru.made.ex.one;
 
 public class FxSpotTrade extends BaseTrade {
 
-    public FxSpotTrade(Float price) {
+    public FxSpotTrade(double price) {
         super(price);
     }
 }
