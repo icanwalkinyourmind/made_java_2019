@@ -5,33 +5,6 @@ import java.util.*;
 
 @SuppressWarnings(value = "unchecked")
 public class OpenAddressingMap<K, V> implements SimpleMap<K, V> {
-    private static class Node<K, V> {
-        private final K key;
-        private final V value;
-        private boolean deleted = false;
-
-        Node(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        K getKey() {
-            return this.key;
-        }
-
-        V getValue() {
-            return this.value;
-        }
-
-        void markDeleted() {
-            deleted = true;
-        }
-
-        boolean isAvailable() {
-            return !deleted;
-        }
-    }
-
     private int tableSize = 4;
     private int tableCapacity = 0;
     private Node<K, V>[] table = new Node[tableSize];
@@ -125,5 +98,32 @@ public class OpenAddressingMap<K, V> implements SimpleMap<K, V> {
             values.add(node.getValue());
         }
         return values;
+    }
+
+    private static class Node<K, V> {
+        private final K key;
+        private final V value;
+        private boolean deleted = false;
+
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        K getKey() {
+            return this.key;
+        }
+
+        V getValue() {
+            return this.value;
+        }
+
+        void markDeleted() {
+            deleted = true;
+        }
+
+        boolean isAvailable() {
+            return !deleted;
+        }
     }
 }
