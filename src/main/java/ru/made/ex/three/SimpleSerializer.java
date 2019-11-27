@@ -18,8 +18,8 @@ public class SimpleSerializer implements Serializer {
         builder.append(s);
     }
 
-    private String trimSuffix(String s, Integer i, Integer n_elements) {
-        if (i.equals(n_elements - 1)) {
+    private String trimSuffix(String s, Integer i, Integer nElements) {
+        if (i.equals(nElements - 1)) {
             return strategy.trimLastElement(s);
         }
         return s;
