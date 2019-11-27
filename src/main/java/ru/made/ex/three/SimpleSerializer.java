@@ -55,16 +55,16 @@ public class SimpleSerializer implements Serializer {
         appendWithIndent(builder, strategy.getCollectionSuffix());
     }
 
-    private void serializeFieldAsObject(StringBuilder builder, Object o, Field field, String s) throws IllegalAccessException {
+    private void serializeFieldAsObject(StringBuilder builder, Object o, Field field, Integer i, Integer arrayLength) throws IllegalAccessException {
         appendWithIndent(builder, strategy.getObjectPrefix(field.getName()));
         doSerialize(builder, field.get(o));
-        appendWithIndent(builder, s);
+        appendWithIndent(builder, trimSuffix(strategy.getObjectSuffix(field.getName()), i, arrayLength));
     }
 
-    private void serializeField(StringBuilder builder, Object o, Field field, String str) throws IllegalAccessException {
+    private void serializeField(StringBuilder builder, Object o, Field field, Integer i, Integer arrayLength) throws IllegalAccessException {
         appendWithIndent(builder, strategy.getFiledPrefix(field.getName()));
         doSerialize(builder, field.get(o));
-        builder.append(str);
+        builder.append(trimSuffix(strategy.getFieldSuffix(field.getName()), i, arrayLength));
     }
 
 
@@ -74,9 +74,9 @@ public class SimpleSerializer implements Serializer {
         for (int i = 0; i < arrayLength; i++) {
             fields[i].setAccessible(true);
             if (isObject(fields[i].get(o))) {
-                serializeFieldAsObject(builder, o, fields[i], trimSuffix(strategy.getObjectSuffix(fields[i].getName()), i, arrayLength));
+                serializeFieldAsObject(builder, o, fields[i], i, arrayLength);
             } else {
-                serializeField(builder, o, fields[i], trimSuffix(strategy.getFieldSuffix(fields[i].getName()), i, arrayLength));
+                serializeField(builder, o, fields[i], i, arrayLength);
             }
         }
     }
