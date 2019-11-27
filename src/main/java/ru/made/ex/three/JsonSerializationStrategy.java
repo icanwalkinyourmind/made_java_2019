@@ -1,6 +1,10 @@
 package ru.made.ex.three;
 
 public class JsonSerializationStrategy implements SerializationStrategy {
+    private String addBracers(String s) {
+        return "\"" + s + "\"";
+    }
+
     @Override
     public String getFilePrefix(String objectName) {
         return "{\n";
@@ -13,7 +17,7 @@ public class JsonSerializationStrategy implements SerializationStrategy {
 
     @Override
     public String getObjectPrefix(String objectName) {
-        return "\"" + objectName + "\": {\n";
+        return addBracers(objectName) + ": {\n";
     }
 
     @Override
@@ -23,7 +27,7 @@ public class JsonSerializationStrategy implements SerializationStrategy {
 
     @Override
     public String getFiledPrefix(String fieldName) {
-        return "\"" + fieldName + "\": ";
+        return addBracers(fieldName) + ": ";
     }
 
     @Override
@@ -33,7 +37,7 @@ public class JsonSerializationStrategy implements SerializationStrategy {
 
     @Override
     public String getScalarValue(String scalar) {
-        return "\"" + scalar + "\"";
+        return addBracers(scalar);
     }
 
     @Override
