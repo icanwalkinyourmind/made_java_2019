@@ -45,7 +45,7 @@ public class SimpleContextTest {
     @Test
     public void testInterruption() {
         Context context = setupContext(() -> {
-            System.out.println("");
+            System.out.print("");
         });
         context.interrupt();
         assertTrue(context.getInterruptedTaskCount() > 0);
@@ -72,5 +72,20 @@ public class SimpleContextTest {
         } catch (InterruptedException ignored) {
         }
         assertEquals(1, list.size());
+    }
+
+    @Test
+    public void getStatistics() {
+        Context context = setupContext(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignore) {
+            }
+        });
+        context.awaitTermination();
+        ExecutionStatistics stat = context.getStatistics();
+        assertEquals(100, stat.getMinExecutionTimeInMs(), 10);
+        assertEquals(100, stat.getMaxExecutionTimeInMs(), 10);
+        assertEquals(100, stat.getAverageExecutionTimeInMs(), 10);
     }
 }
