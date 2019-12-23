@@ -1,11 +1,11 @@
 package ru.made.ex.four;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleExecutionStatistics implements ExecutionStatistics {
-    private ArrayList<Long> tasksExecutionTime;
+    private List<Long> tasksExecutionTime;
 
-    SimpleExecutionStatistics(ArrayList<Long> tasksExecutionTime) {
+    SimpleExecutionStatistics(List<Long> tasksExecutionTime) {
         this.tasksExecutionTime = tasksExecutionTime;
     }
 

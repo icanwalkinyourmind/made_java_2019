@@ -3,12 +3,11 @@ package ru.made.ex.four;
 
 class Task extends Thread {
     public volatile long executionTime = 0;
-    public volatile boolean isFinished = false;
-    public volatile boolean isFailed = false;
+    private volatile boolean finished = false;
+    private volatile boolean failed = false;
     private Runnable job;
 
     public Task(Runnable job) {
-        super();
         this.job = job;
     }
 
@@ -19,8 +18,16 @@ class Task extends Thread {
             job.run();
             executionTime = System.currentTimeMillis() - start;
         } catch (Exception e) {
-            isFailed = true;
+            failed = true;
         }
-        isFinished = true;
+        finished = true;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public boolean isFailed() {
+        return failed;
     }
 }

@@ -12,7 +12,6 @@ public class SimpleContextTest {
     public static Context setupContext(Runnable doSomething) {
         ArrayList<Runnable> jobs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            final int j = i;
             jobs.add(doSomething);
         }
         ArrayList<Task> tasks = new ArrayList<>();
@@ -26,9 +25,7 @@ public class SimpleContextTest {
 
     @Test
     public void getCompletedTaskCount() {
-        Context context = setupContext(() -> {
-            System.out.print("");
-        });
+        Context context = setupContext(() -> System.out.print(""));
         context.awaitTermination();
         assertEquals(10, context.getCompletedTaskCount());
     }
@@ -44,18 +41,14 @@ public class SimpleContextTest {
 
     @Test
     public void testInterruption() {
-        Context context = setupContext(() -> {
-            System.out.print("");
-        });
+        Context context = setupContext(() -> System.out.print(""));
         context.interrupt();
         assertTrue(context.getInterruptedTaskCount() > 0);
     }
 
     @Test
     public void isFinished() {
-        Context context = setupContext(() -> {
-            System.out.print("");
-        });
+        Context context = setupContext(() -> System.out.print(""));
         context.awaitTermination();
         assertTrue(context.isFinished());
     }

@@ -1,7 +1,8 @@
 package ru.made.ex.four;
 
-import java.util.ArrayList;
-import java.util.function.Function;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 class Callback extends Thread {
@@ -9,7 +10,6 @@ class Callback extends Thread {
     private Runnable job;
 
     Callback(Context context, Runnable job) {
-        super();
         this.context = context;
         this.job = job;
     }
@@ -17,12 +17,11 @@ class Callback extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (!Thread.interrupted()) {
-                if (context.isFinished()) {
-                    job.run();
-                    return;
-                }
-            } else {
+            if (Thread.interrupted()) {
+                return;
+            }
+            if (context.isFinished()) {
+                job.run();
                 return;
             }
             try {
@@ -36,28 +35,28 @@ class Callback extends Thread {
 
 
 public class SimpleContext implements Context {
-    private ArrayList<Task> executingTasks;
+    private List<Task> executingTasks;
 
-    SimpleContext(ArrayList<Task> tasks) {
+    SimpleContext(List<Task> tasks) {
         executingTasks = tasks;
     }
 
-    private int calcTasksWithCondition(Function<Task, Boolean> condition) {
+    private int calcTasksWithCondition(Predicate<Task> condition) {
         int numOfTasks = 0;
         for (Task t : executingTasks) {
-            if (condition.apply(t)) numOfTasks += 1;
+            if (condition.test(t)) numOfTasks += 1;
         }
         return numOfTasks;
     }
 
     @Override
     public int getCompletedTaskCount() {
-        return calcTasksWithCondition((Task task) -> task.isFinished);
+        return calcTasksWithCondition(Task::isFinished);
     }
 
     @Override
     public int getFailedTaskCount() {
-        return calcTasksWithCondition((Task task) -> task.isFailed);
+        return calcTasksWithCondition(Task::isFailed);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class SimpleContext implements Context {
     @Override
     public void interrupt() {
         for (Task task : executingTasks) {
-            if (!task.isFinished & !task.isInterrupted()) {
+            if (!task.isFailed() & !task.isInterrupted()) {
                 task.interrupt();
             }
         }
@@ -87,19 +86,17 @@ public class SimpleContext implements Context {
 
     @Override
     public ExecutionStatistics getStatistics() {
-        ArrayList<Long> finishedTasksExecutionTime = new ArrayList<>();
-        for (Task task : executingTasks) {
-            if (task.isFinished) {
-                finishedTasksExecutionTime.add(task.executionTime);
-            }
-        }
-        return new SimpleExecutionStatistics(finishedTasksExecutionTime);
+        return new SimpleExecutionStatistics(
+                executingTasks.stream()
+                        .filter(Task::isFinished)
+                        .map(task -> task.executionTime)
+                        .collect(Collectors.toList()));
     }
 
     @Override
     public void awaitTermination() {
         for (Task task : executingTasks) {
-            if (!task.isFinished && !task.isInterrupted()) {
+            if (!task.isFinished() && !task.isInterrupted()) {
                 try {
                     task.join();
                 } catch (InterruptedException ignored) {
